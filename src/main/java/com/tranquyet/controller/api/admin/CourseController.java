@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://student-management-reactjs.herokuapp.com/")
 @RestController(value = "courseControllerAdmin")
 @RequestMapping("/api/course")
 public class CourseController {
