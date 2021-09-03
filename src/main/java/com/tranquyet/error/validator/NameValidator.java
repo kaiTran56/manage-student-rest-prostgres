@@ -9,6 +9,6 @@ import javax.validation.ConstraintValidatorContext;
 public class NameValidator implements ConstraintValidator<Name, String> {
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return value!=(null)&&value.length()<=25&&!value.isBlank() ;
+        return value!=(null)&&value.length()<=25&&!value.isEmpty() ;
     }
 }
