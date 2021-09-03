@@ -11,7 +11,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "https://student-management-reactjs.herokuapp.com/")
+//@CrossOrigin(origins = "https://student-management-reactjs.herokuapp.com/")
+@CrossOrigin(origins = "http://localhost:3000/")
 @RestController(value = "manageStudentApiAdmin")
 @RequestMapping(value = "/api/student")
 public class ManageStudentController {

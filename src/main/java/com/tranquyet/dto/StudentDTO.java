@@ -41,17 +41,21 @@ public class StudentDTO extends AbstractDTO<StudentDTO> {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR); // current year
         int yearOfBirth = 0;
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat(StudentValueConstant.FORMAT_DATE);
-            yearOfBirth = sdf.parse(dob).getYear() + 1900; // year of dob
+            if (dob != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat(StudentValueConstant.FORMAT_DATE);
+                yearOfBirth = sdf.parse(dob).getYear() + 1900; // year of dob
+            }
+            int currentAge = currentYear - yearOfBirth; // current age
+            return currentAge;
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        int currentAge = currentYear - yearOfBirth; // current age
 
-        return currentAge;
+
+        return 0;
     }
 
-    public void setDob(String dob){
+    public void setDob(String dob) {
         this.dob = dob;
         this.getYear();
         this.countCurrentAge();
@@ -74,7 +78,10 @@ public class StudentDTO extends AbstractDTO<StudentDTO> {
         int yearOfBirth = 0;
         SimpleDateFormat sdf = new SimpleDateFormat(StudentValueConstant.FORMAT_DATE);
         try {
-            yearOfBirth = sdf.parse(dob).getYear() + 1900;
+            if (dob != null) {
+                yearOfBirth = sdf.parse(dob).getYear() + 1900;
+            }
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
