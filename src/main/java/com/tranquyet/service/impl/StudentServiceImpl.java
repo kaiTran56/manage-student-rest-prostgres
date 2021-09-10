@@ -87,7 +87,6 @@ public class StudentServiceImpl implements StudentService {
         }
         return studentConverter.toDTO(studentRepository.save(studentTemp));
     }
-
     @Override
     public void delete(Long[] ids) {
         for (Long id : ids) {
@@ -96,6 +95,4 @@ public class StudentServiceImpl implements StudentService {
             save(dto);
         }
     }
-
-
 }

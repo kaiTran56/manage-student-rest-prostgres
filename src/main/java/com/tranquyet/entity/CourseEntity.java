@@ -20,7 +20,7 @@ import java.util.List;
 @Entity
 public class CourseEntity extends AbstractEntity{
 
-    @Column
+    @Column(unique = true)
     private String name;
 
     @OneToMany(mappedBy = "course")

@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-@CrossOrigin(origins = "https://app-manage-student.herokuapp.com/")
-//@CrossOrigin(origins = "http://localhost:3000/")
+//@CrossOrigin(origins = "https://app-manage-student.herokuapp.com/")
+@CrossOrigin(origins = "http://localhost:3000/")
 @RestController(value = "excelFileApiAdmin")
 @RequestMapping(value = "/api/excel")
 public class ExcelFileController {
@@ -30,9 +30,7 @@ public class ExcelFileController {
         StudentStorageService.addStudent(studentService.getAll());
         ByteArrayInputStream in = new ExcelService().createDataExcel();
         HttpHeaders headers = new HttpHeaders();
-
         headers.add("Content-Disposition", "attachment; filename="+ AutoNameGeneration.getName());
-
         return ResponseEntity
                 .ok()
                 .headers(headers)

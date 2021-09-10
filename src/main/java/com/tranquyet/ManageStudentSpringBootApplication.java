@@ -10,7 +10,6 @@ public class ManageStudentSpringBootApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ManageStudentSpringBootApplication.class, args);
-        System.out.println("Hello World!");
     }
 
 }

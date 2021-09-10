@@ -1,8 +1,8 @@
 package com.tranquyet.dto;
 
 
+import com.tranquyet.error.annotation.CodeOfClass;
 import com.tranquyet.error.annotation.Dob;
-import com.tranquyet.error.annotation.Email;
 import com.tranquyet.error.annotation.Name;
 import com.tranquyet.error.annotation.Phone;
 import com.tranquyet.util.constant.student.StudentValueConstant;
@@ -28,6 +28,7 @@ public class StudentDTO extends AbstractDTO<StudentDTO> {
     @Phone
     private String phone;
     private String email;
+    @CodeOfClass
     private String codeOfClass;
     private String note;
 

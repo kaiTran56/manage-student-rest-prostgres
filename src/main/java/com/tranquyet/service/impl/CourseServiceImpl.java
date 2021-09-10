@@ -42,11 +42,11 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public CourseDTO save(CourseDTO dto) {
-        return null;
+        return courseConverter.toDTO(courseRepository.save(courseConverter.toEntity(dto)));
     }
 
     @Override
     public void delete(Long[] ids) {
-
+        courseRepository.deleteAll();
     }
 }
