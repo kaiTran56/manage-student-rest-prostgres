@@ -11,7 +11,6 @@ import com.tranquyet.util.constant.value.ConstantValue;
 import com.tranquyet.util.student.AutoCodeGeneration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,13 +39,10 @@ public class StudentServiceImpl implements StudentService {
     public List<StudentDTO> findStudentByCourse(String codeOfCourse) {
         CourseEntity courseEntity = courseRepository.findOneByName(codeOfCourse);
         List<StudentDTO> listStudent = new ArrayList<>();
-        if(courseEntity!=null){
+        if (courseEntity != null) {
             listStudent = studentRepository.getStudentByCourse(courseEntity.getId())
-                    .stream().filter(p->p!=null).map(p -> studentConverter.toDTO(p))
+                    .stream().filter(p -> p != null).map(p -> studentConverter.toDTO(p))
                     .collect(Collectors.toList());
-        }
-        if(listStudent==null){
-            return null;
         }
         return listStudent;
     }
@@ -87,6 +83,7 @@ public class StudentServiceImpl implements StudentService {
         }
         return studentConverter.toDTO(studentRepository.save(studentTemp));
     }
+
     @Override
     public void delete(Long[] ids) {
         for (Long id : ids) {
@@ -94,5 +91,13 @@ public class StudentServiceImpl implements StudentService {
             dto.setDeleteTag(ConstantValue.DELETE_TAG);
             save(dto);
         }
+    }
+
+    @Override
+    public boolean checkDuplicatedStudent(StudentDTO dto) {
+        Optional<StudentEntity> checkNullEntity = Optional.of(studentConverter.toEntity(dto));
+        return checkNullEntity.filter(studentEntity -> studentRepository.getDuplicateStudent(studentEntity.getName()
+                , studentEntity.getGender()
+                , studentEntity.getDob())).isPresent();
     }
 }

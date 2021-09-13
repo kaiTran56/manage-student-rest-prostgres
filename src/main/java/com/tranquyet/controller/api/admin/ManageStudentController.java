@@ -1,8 +1,6 @@
 package com.tranquyet.controller.api.admin;
 
-import com.tranquyet.dto.CourseDTO;
 import com.tranquyet.dto.StudentDTO;
-import com.tranquyet.service.CourseService;
 import com.tranquyet.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,16 +11,16 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "https://app-manage-student.herokuapp.com/")
-//@CrossOrigin(origins = "http://localhost:3000/")
+//@CrossOrigin(origins = "https://app-manage-student.herokuapp.com/")
+@CrossOrigin(origins = "http://localhost:3000/")
 @RestController(value = "manageStudentApiAdmin")
 @RequestMapping(value = "/api/student")
 public class ManageStudentController {
     @Autowired
     private StudentService studentService;
 
-    @Autowired
-    private CourseService courseService;
+//    @Autowired
+//    private CourseService courseService;
 
 
     @GetMapping
@@ -58,9 +56,21 @@ public class ManageStudentController {
 
     @PostMapping(value = "/save")
     public ResponseEntity<StudentDTO> save(@Valid @RequestBody StudentDTO studentDTO) {
-        System.out.println("Hello---------->"+studentDTO.toString());
+        System.out.println("Hello---------->" + studentDTO.toString());
         studentService.save(studentDTO);
         return new ResponseEntity<>(studentDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/validated")
+    public ResponseEntity<Boolean> getDuplicatedStudent(@RequestParam(name = "nameStudent") String nameStudent
+            , @RequestParam(name = "genderStudent") String genderStudent
+            , @RequestParam(name = "dobStudent") String dobStudent) {
+        StudentDTO tempDTO = new StudentDTO();
+        tempDTO.setName(nameStudent);
+        tempDTO.setGender(genderStudent);
+        tempDTO.setDob(dobStudent);
+        boolean checkDuplicated = studentService.checkDuplicatedStudent(tempDTO);
+        return new ResponseEntity<>(checkDuplicated, HttpStatus.OK);
     }
 
 }

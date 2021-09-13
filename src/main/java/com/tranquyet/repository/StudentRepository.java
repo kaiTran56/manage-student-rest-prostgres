@@ -20,4 +20,9 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Long> {
 
     @Query(value = "select * from student where course_id = :idCourse", nativeQuery = true)
     List<StudentEntity> getStudentByCourse(@Param("idCourse") Long idCourse);
+
+    @Query(value = "select exists (select name, gender, dob from student where name= :nameStudent and gender=:genderStudent and dob=:dobStudent)", nativeQuery = true)
+    boolean getDuplicateStudent(@Param("nameStudent") String nameStudent,
+                                            @Param("genderStudent") String genderStudent,
+                                            @Param("dobStudent") String dobStudent);
 }

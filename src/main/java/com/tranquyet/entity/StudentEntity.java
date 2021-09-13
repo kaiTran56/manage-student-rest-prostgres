@@ -26,7 +26,7 @@ public class StudentEntity extends AbstractEntity {
     private String dob;
     @Column(nullable = false)
     private String gender;
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 10, unique = true)
     private String phone;
     @Column(unique = true)
     private String email;

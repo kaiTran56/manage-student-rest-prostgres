@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-@CrossOrigin(origins = "https://app-manage-student.herokuapp.com/")
-//@CrossOrigin(origins = "http://localhost:3000/")
+//@CrossOrigin(origins = "https://app-manage-student.herokuapp.com/")
+@CrossOrigin(origins = "http://localhost:3000/")
 @RestController(value = "excelFileApiAdmin")
 @RequestMapping(value = "/api/excel")
 public class ExcelFileController {

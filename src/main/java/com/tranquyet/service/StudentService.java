@@ -22,4 +22,6 @@ public interface StudentService {
 
     void delete(Long[] ids);
 
+    boolean checkDuplicatedStudent(StudentDTO dto);
+
 }
