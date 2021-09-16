@@ -45,12 +45,15 @@ public class ListStudentTable {
              * Dynamic value which depend on pageNumber, any time page number increase will create a new page
              * and the location of cell, name of table will increase pageNumber time
              */
-            int startRow = i * TableExcelValueConstant.ALL_ROW_PER_PAGE;
+            int startRow = 0;
+            startRow = studentSheet.getLastRowNum() + 1;
+            if (i != 0) {
+                studentSheet.setRowBreak(studentSheet.getLastRowNum());
+            }
             if (i == totalPage - 1) {
                 createFieldTable(studentSheet, wb, startRow, componentExcel); // generate the field for table
                 createNameTableAndPage(studentSheet, wb, startRow, componentExcel, excelModel); //generate the name of table, page number
                 createCellAndBindLastPage(studentSheet, componentExcel, wb, startRow, listStudent.get(i), excelModel);
-
                 studentSheet.getPrintSetup().setPaperSize(PrintSetup.A4_PAPERSIZE);
                 studentSheet.getPrintSetup().setLandscape(false);
                 studentSheet.setFitToPage(true);
@@ -62,7 +65,12 @@ public class ListStudentTable {
                 createFieldTable(studentSheet, wb, startRow, componentExcel); // generate the field for table
                 createNameTableAndPage(studentSheet, wb, startRow, componentExcel, excelModel); //generate the name of table, page number
                 createCellAndBind(studentSheet, componentExcel, wb, startRow, listStudent.get(i)); // generate the cell of table and bind the value into them
-
+                studentSheet.getPrintSetup().setPaperSize(PrintSetup.A4_PAPERSIZE);
+                studentSheet.getPrintSetup().setLandscape(false);
+                studentSheet.setFitToPage(true);
+                PrintSetup printSetup = studentSheet.getPrintSetup();
+                printSetup.setFitHeight((short) 0);
+                printSetup.setFitWidth((short) 1);
             }
         }
 
@@ -161,11 +169,10 @@ public class ListStudentTable {
         Cell pageCell = null;
         pageCell = headerRow.createCell(6);
         if (startRow == studentSheet.getLastRowNum()) {
-            pageCell.setCellValue(TableExcelValueConstant.PAGE_TABLE + (excelModel.getCurrentPage() + 1) + "/" + (excelModel.getTotalPage() + 1));
-        }else if(StudentStorageService.getTotal()==34){
-            pageCell.setCellValue(TableExcelValueConstant.PAGE_TABLE + (excelModel.getCurrentPage()) + "/" + (excelModel.getTotalPage() + 1));
-        }
-        else {
+            //pageCell.setCellValue(TableExcelValueConstant.PAGE_TABLE + (excelModel.getCurrentPage() + 1) + "/" + (excelModel.getTotalPage() + 1));
+        } else if (StudentStorageService.getTotal() == 34) {
+            //pageCell.setCellValue(TableExcelValueConstant.PAGE_TABLE + (excelModel.getCurrentPage()) + "/" + (excelModel.getTotalPage() + 1));
+        } else {
             pageCell.setCellValue(TableExcelValueConstant.PAGE_TABLE + excelModel.getCurrentPage() + "/" + (excelModel.getTotalPage()));
         }
         studentSheet.addMergedRegion(new CellRangeAddress(
@@ -215,10 +222,6 @@ public class ListStudentTable {
                     }
                 }
             }
-
-            if (i == 33) {
-                studentSheet.setRowBreak(studentSheet.getLastRowNum());
-            }
         }
     }
 
@@ -267,9 +270,7 @@ public class ListStudentTable {
                 } else {
                     ChartTableExcel.createChartTable((XSSFSheet) studentSheet, 5 + i + startRow);
                 }
-
             }
-
         }
     }
 

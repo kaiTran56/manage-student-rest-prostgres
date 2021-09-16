@@ -45,6 +45,18 @@ public class ManageStudentController {
 //        courseService.save(courseDTO_3);
 //        System.out.println("Successfully!");
 
+//        for(int i = 0 ; i < 340; i++){
+//            System.out.println(i);
+//            StudentDTO tempDTO = new StudentDTO();
+//            tempDTO.setName("Demo "+ i);
+//            tempDTO.setDob("15/9/2000");
+//            tempDTO.setPhone("0969164184");
+//            tempDTO.setCodeOfClass("TIN1");
+//            tempDTO.setGender("Nam");
+//            studentService.save(tempDTO);
+//        }
+
+
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
@@ -56,18 +68,29 @@ public class ManageStudentController {
 
     @PostMapping(value = "/save")
     public ResponseEntity<StudentDTO> save(@Valid @RequestBody StudentDTO studentDTO) {
-        System.out.println("Hello---------->" + studentDTO.toString());
-        studentService.save(studentDTO);
-        return new ResponseEntity<>(studentDTO, HttpStatus.OK);
+
+        if(!studentService.checkDuplicatedStudent(studentDTO)){
+            System.out.println("Hello---------->" + studentDTO.toString());
+            studentService.save(studentDTO);
+            return new ResponseEntity<>(studentDTO, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(studentDTO, HttpStatus.CONFLICT);
     }
 
     @GetMapping("/validated")
     public ResponseEntity<Boolean> getDuplicatedStudent(@RequestParam(name = "nameStudent") String nameStudent
             , @RequestParam(name = "genderStudent") String genderStudent
             , @RequestParam(name = "dobStudent") String dobStudent) {
+        String temp = genderStudent;
+        int length=temp.length();
+        if(temp.contains("Nu")&&length>2){
+            temp = genderStudent.substring(0, length-3);
+        }else if(temp.contains("Nam")&&length>3){
+            temp = genderStudent.substring(0, length-3);
+        }
         StudentDTO tempDTO = new StudentDTO();
         tempDTO.setName(nameStudent);
-        tempDTO.setGender(genderStudent);
+        tempDTO.setGender(temp);
         tempDTO.setDob(dobStudent);
         boolean checkDuplicated = studentService.checkDuplicatedStudent(tempDTO);
         return new ResponseEntity<>(checkDuplicated, HttpStatus.OK);

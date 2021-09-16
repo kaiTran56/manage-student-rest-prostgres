@@ -11,6 +11,7 @@ import com.tranquyet.util.constant.value.ConstantValue;
 import com.tranquyet.util.student.AutoCodeGeneration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -68,7 +69,6 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentDTO save(StudentDTO dto) {
-
         CourseEntity courseEntity = courseRepository.findOneByName(dto.getCodeOfClass());
         StudentEntity studentTemp = new StudentEntity();
         if (dto.getId() != null) {
@@ -76,7 +76,7 @@ public class StudentServiceImpl implements StudentService {
             old = studentConverter.toEntity(dto);
             old.setCourse(courseEntity);
             studentTemp = old;
-        } else {
+        } else  {
             studentTemp = studentConverter.toEntity(dto);
             studentTemp.setCourse(courseEntity);
             studentTemp.setCode(AutoCodeGeneration.generateCode());

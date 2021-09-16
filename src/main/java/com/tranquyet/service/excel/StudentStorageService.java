@@ -40,12 +40,13 @@ public class StudentStorageService {
     /**
      *
      */
-    public static List<StudentDTO> getStudentForTableSheet(){
+    public static List<StudentDTO> getStudentForTableSheet() {
         List<StudentDTO> studentTableSheet = new ArrayList<>();
-        getAll().forEach(p->{
+        getAll().forEach(p -> {
             StudentDTO student = new StudentDTO();
             student.setCode(p.getCode());
             student.setName(p.getName());
+            student.setCodeOfClass(p.getCodeOfClass());
             student.setGender(p.getGender());
             student.setDob(p.getDob());
             student.setPhone(p.getPhone());
@@ -73,14 +74,21 @@ public class StudentStorageService {
      * @return paging - a list contain sub_list which have size 20 or smaller 20 at the last sub_list
      */
     public static List<List<StudentDTO>> pagination(final int studentPerPage) {
-        List<List<StudentDTO>> paging = new ArrayList<List<StudentDTO>>();
-        final int N = getTotal();
-        for (int i = 0; i < N; i += studentPerPage) {
-            paging.add(new ArrayList<StudentDTO>( // create sub_list
-                    getStudentForTableSheet().subList(i, Math.min(N, i + studentPerPage)))
-            );
-        }
-        return paging;
+        Map<String, List<StudentDTO>> check = getStudentForTableSheet().stream()
+                .collect(Collectors.groupingBy(StudentDTO::getCodeOfClass));
+        List<List<StudentDTO>> list = new ArrayList<>();
+        check.values().stream().filter(p -> p.size() > studentPerPage).sorted(Comparator.comparing(List::size))
+                .forEach(p -> {
+                    int n = p.size();
+                    for (int i = 0; i < n; i += studentPerPage) {
+                        list.add(new ArrayList<>( // create sub_list
+                                p.subList(i, Math.min(n, i + studentPerPage))));
+                    }
+                });
+        check.values().stream().filter(p -> p.size() <= studentPerPage).sorted(Comparator.comparing(List::size)).forEach(list::add);
+
+        return list;
+
     }
 
     /**
@@ -99,9 +107,8 @@ public class StudentStorageService {
         Map<Integer, Long> temp = listAge.stream().sorted()
                 .collect(Collectors.groupingBy(c -> c, Collectors.counting())); // create key map contain unique year
         // and value map contain the number of student have the same year
-        Map<Integer, Long> map =  temp.entrySet().stream()
+        Map<Integer, Long> map = temp.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
-                .limit(10)
                 .collect(Collectors.toMap(
                         Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
         return map;

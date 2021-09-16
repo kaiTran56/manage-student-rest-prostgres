@@ -9,6 +9,6 @@ public class CodeOfClassValidator implements ConstraintValidator<CodeOfClass, St
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return value!=(null)&&value.length()!=0&&!value.isEmpty() ;
+        return !value.isEmpty();
     }
 }
