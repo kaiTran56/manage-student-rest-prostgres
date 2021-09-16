@@ -19,10 +19,8 @@ import java.util.Optional;
 @RestController(value = "excelFileApiAdmin")
 @RequestMapping(value = "/api/excel")
 public class ExcelFileController {
-
     @Autowired
     private StudentService studentService;
-
     @GetMapping(value = "/download/{codeOfClass}")
     public ResponseEntity excelCustomersReport(@PathVariable(name = "codeOfClass") Optional<String> codeOfClass) throws IOException {
         String name = codeOfClass.get();
