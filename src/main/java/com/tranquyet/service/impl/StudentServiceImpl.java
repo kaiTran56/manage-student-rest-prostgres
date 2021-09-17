@@ -86,11 +86,12 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void delete(Long[] ids) {
-        for (Long id : ids) {
-            StudentDTO dto = findById(id);
-            dto.setDeleteTag(ConstantValue.DELETE_TAG);
-            save(dto);
-        }
+//        for (Long id : ids) {
+//            StudentDTO dto = findById(id);
+//            dto.setDeleteTag(ConstantValue.DELETE_TAG);
+//            save(dto);
+//        }
+        studentRepository.deleteAll();
     }
 
     @Override

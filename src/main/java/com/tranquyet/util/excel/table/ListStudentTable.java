@@ -214,6 +214,11 @@ public class ListStudentTable {
                 for (int j = 0; j < TableExcelValueConstant.NUMBER_FIELD_EXCEL; j++) {
                     cell = row.createCell(j + 1);
                     if (j == 1) {
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         cell.setCellValue(list.get(i).getArrayInformation()[j]);// set value from student
                         componentExcel.createStyleNameColumn(cell, wb); // set style for cell
                     } else {
